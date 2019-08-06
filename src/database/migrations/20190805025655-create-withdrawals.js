@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('withdrwals', {
+    return queryInterface.createTable('withdrawals', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -19,6 +19,31 @@ module.exports = {
         unique: false,
       },
       value: {
+        type: Sequelize.DECIMAL(11, 2),
+        defaultValue: 0,
+        allowNull: false,
+      },
+      hundred: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
+      },
+      fifty: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
+      },
+      twenty: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
+      },
+      ten: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
+      },
+      five: {
         type: Sequelize.INTEGER,
         defaultValue: 0,
         allowNull: false,
@@ -35,6 +60,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('withdrwals');
+    return queryInterface.dropTable('withdrawals');
   },
 };

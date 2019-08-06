@@ -1,33 +1,24 @@
-/* eslint-disable no-restricted-syntax */
-
-/* Não finalizado */
-function noteCounter(value, banknotes) {
-  let returnKey = '';
-  for (const note of banknotes) {
-    const quantity = Math.floor(value / note);
-    console.log(`${quantity} notas de ${note}`);
-    /* if (value % note === 0) {
-      break;
-    } */
-    returnKey = returnKey + note.toString() + quantity.toString();
-    value -= quantity * note;
-  }
-  return returnKey;
-}
+import noteCounter from '../functions/NoteCounter';
+import Withdrawal from '../models/Withdrawal';
 
 class WithdrawalController {
   async index(req, res) {
     const { id, value } = req.body;
 
-    const banknotes = [100, 50, 20, 10, 5];
-
-    if (value % Math.min(...banknotes) !== 0) {
+    if (value % 5 !== 0) {
       return res.status(400).json({ error: 'Minimun banknote is R$ 5,00.' });
     }
 
-    const text = noteCounter(value, banknotes);
+    await noteCounter(id, value);
 
-    return res.json({ text });
+    const withdrawal = await Withdrawal.findAll({
+      where: {
+        user_id: id,
+      },
+      attributes: ['id', 'hundred', 'fifty', 'twenty', 'ten', 'five'],
+    });
+
+    return res.json(withdrawal);
   }
 }
 
