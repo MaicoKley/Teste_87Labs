@@ -5,12 +5,14 @@ import Transaction from '../models/Transaction';
 
 class TransferController {
   async index(req, res) {
-    const { id } = req.body;
+    const { id, days } = req.body;
+
+    const time = days ? days * 86400000 : 604800000;
 
     const transaction = await Transaction.findAll({
       where: {
         user_from: id,
-        createdAt: { [Op.gte]: Date.now() - 604800000 },
+        createdAt: { [Op.gte]: Date.now() - time },
       },
     });
 
@@ -32,7 +34,17 @@ class TransferController {
       return res.status(401).json({ error: 'Transaction over the limit' });
     }
 
-    const balance = await Balance.findOne({ where: { user_id: user_to } });
+    const balanceSender = await Balance.findOne({
+      where: { user_id: user_from },
+    });
+
+    await balanceSender.update({
+      value: parseFloat(balanceSender.value) - value,
+    });
+
+    const balanceReceiver = await Balance.findOne({
+      where: { user_id: user_to },
+    });
 
     const transaction = await Transaction.create({
       user_from,
@@ -41,9 +53,11 @@ class TransferController {
       type: 'T',
     });
 
-    await balance.update({ value: value + parseFloat(balance.value) });
+    await balanceReceiver.update({
+      value: value + parseFloat(balanceReceiver.value),
+    });
 
-    return res.json({ balance, transaction });
+    return res.json({ balanceReceiver, transaction });
   }
 }
 
