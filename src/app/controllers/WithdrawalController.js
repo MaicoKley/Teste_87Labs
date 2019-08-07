@@ -1,5 +1,6 @@
 import noteCounter from '../functions/NoteCounter';
 import Withdrawal from '../models/Withdrawal';
+import Balance from '../models/Balance';
 
 class WithdrawalController {
   async index(req, res) {
@@ -19,6 +20,26 @@ class WithdrawalController {
     });
 
     return res.json(withdrawal);
+  }
+
+  async update(req, res) {
+    const { id } = req.body;
+
+    const withdrawal = await Withdrawal.findOne({
+      where: {
+        id,
+      },
+    });
+
+    const balance = await Balance.findOne({
+      where: { user_id: withdrawal.user_id },
+    });
+
+    await balance.update({
+      value: parseFloat(balance.value) - withdrawal.value,
+    });
+
+    return res.json(balance);
   }
 }
 

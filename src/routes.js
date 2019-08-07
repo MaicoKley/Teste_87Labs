@@ -17,5 +17,6 @@ routes.get('/transfer', TransferController.index);
 routes.put('/transfer', TransferController.store);
 
 routes.get('/withdrawal', WithdrawalController.index);
+routes.post('/withdrawal', WithdrawalController.update);
 
 export default routes;
