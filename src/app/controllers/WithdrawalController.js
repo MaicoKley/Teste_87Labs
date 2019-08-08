@@ -10,6 +10,14 @@ class WithdrawalController {
       return res.status(400).json({ error: 'Minimun banknote is R$ 5,00.' });
     }
 
+    const balance = await Balance.findOne({
+      where: { user_id: id },
+    });
+
+    if (balance.value < value) {
+      return res.status(403).json({ error: 'Balance is not enough.' });
+    }
+
     await noteCounter(id, value);
 
     const withdrawal = await Withdrawal.findAll({
@@ -37,6 +45,10 @@ class WithdrawalController {
 
     await balance.update({
       value: parseFloat(balance.value) - withdrawal.value,
+    });
+
+    await Withdrawal.destroy({
+      where: { user_id: withdrawal.user_id },
     });
 
     return res.json(balance);

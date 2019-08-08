@@ -31,12 +31,16 @@ class TransferController {
     }
 
     if (sender.limit < value) {
-      return res.status(401).json({ error: 'Transaction over the limit' });
+      return res.status(403).json({ error: 'Transaction over the limit' });
     }
 
     const balanceSender = await Balance.findOne({
       where: { user_id: user_from },
     });
+
+    if (balanceSender.value < value) {
+      return res.status(403).json({ error: 'Balance is not enough.' });
+    }
 
     await balanceSender.update({
       value: parseFloat(balanceSender.value) - value,
