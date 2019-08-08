@@ -8,7 +8,11 @@ Para executar a aplicação deve ser seguidos os seguintes passos:
  - Executar o comando para serem geradas as tabelas no banco de dados `yarn sequelize db:migrate`.    
  - E por fim `yarn dev` para executar a aplicação.
  - A aplicação irá rodar em `http://localhost:3333`
- 
+    
+    
+ Exemplos:
+   
+   
  Criação de usuário:    
  /users
  POST
@@ -33,7 +37,7 @@ POST
 }
 `    
 
-### Para as chamadas das proximas rotas deve ser utilizado o token, retornado no login de sessão, no `header Bearear`   
+### Para as chamadas das proximas rotas deve ser utilizado o token, retornado no login de sessão, no `header Bearer`   
 
 Alteração de Limite:   
 /users
