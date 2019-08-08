@@ -1,10 +1,12 @@
 import noteCounter from '../functions/NoteCounter';
 import Withdrawal from '../models/Withdrawal';
+import Transaction from '../models/Transaction';
 import Balance from '../models/Balance';
 
 class WithdrawalController {
   async index(req, res) {
-    const { id, value } = req.body;
+    const id = req.userId;
+    const { value } = req.body;
 
     if (value % 5 !== 0) {
       return res.status(400).json({ error: 'Minimun banknote is R$ 5,00.' });
@@ -45,6 +47,12 @@ class WithdrawalController {
 
     await balance.update({
       value: parseFloat(balance.value) - withdrawal.value,
+    });
+
+    await Transaction.create({
+      user_from: withdrawal.user_id,
+      value: withdrawal.value,
+      type: 'W',
     });
 
     await Withdrawal.destroy({

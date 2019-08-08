@@ -5,7 +5,8 @@ import Transaction from '../models/Transaction';
 
 class TransferController {
   async index(req, res) {
-    const { id, days } = req.body;
+    const id = req.userId;
+    const { days } = req.body;
 
     const time = days ? days * 86400000 : 604800000;
 
@@ -20,7 +21,8 @@ class TransferController {
   }
 
   async store(req, res) {
-    const { user_from, value, user_to } = req.body;
+    const user_from = req.userId;
+    const { value, user_to } = req.body;
 
     const sender = await User.findByPk(user_from);
 

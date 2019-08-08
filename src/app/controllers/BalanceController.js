@@ -4,15 +4,16 @@ import Transaction from '../models/Transaction';
 
 class BalanceController {
   async index(req, res) {
-    const { id } = req.body;
+    const id = req.userId;
 
     const { value } = await Balance.findOne({ where: { user_id: id } });
 
-    return res.json(value);
+    return res.json({ value });
   }
 
   async update(req, res) {
-    const { id, value } = req.body;
+    const id = req.userId;
+    const { value } = req.body;
 
     const balance = await Balance.findOne({ where: { user_id: id } });
 
@@ -48,7 +49,7 @@ class BalanceController {
       return res.status(400).json({ error: 'Deposit higher than R$ 800,00.' });
     }
 
-    const transaction = await Transaction.create({
+    await Transaction.create({
       user_from: id,
       value,
       type: 'D',
@@ -56,7 +57,7 @@ class BalanceController {
 
     await balance.update({ value: value + parseFloat(balance.value) });
 
-    return res.json({ balance, total, transaction });
+    return res.json({ balance });
   }
 }
 

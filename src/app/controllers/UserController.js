@@ -1,5 +1,6 @@
 import User from '../models/User';
 import Balance from '../models/Balance';
+import Transaction from '../models/Transaction';
 
 class UserController {
   async store(req, res) {
@@ -27,6 +28,12 @@ class UserController {
 
     await Balance.create({ user_id: user.id });
 
+    await Transaction.create({
+      user_from: user.id,
+      value: 0,
+      type: 'D',
+    });
+
     return res.json({
       id: user.id,
       name: user.name,
@@ -41,7 +48,8 @@ class UserController {
   }
 
   async update(req, res) {
-    const { id, newLimit } = req.body;
+    const id = req.userId;
+    const { newLimit } = req.body;
 
     const user = await User.findByPk(id);
 
