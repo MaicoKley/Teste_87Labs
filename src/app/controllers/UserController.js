@@ -25,10 +25,19 @@ class UserController {
 
     await user.update({ limit, account, agency });
 
-    const balance = await Balance.create({ user_id: user.id });
+    await Balance.create({ user_id: user.id });
 
-    // return res.json(req.body);
-    return res.json({ user, balance });
+    return res.json({
+      id: user.id,
+      name: user.name,
+      cpf: user.cpf,
+      adress: user.adress,
+      birth_date: user.birth_date,
+      gender: user.gender,
+      limit: user.limit,
+      account: user.account,
+      agency: user.agency,
+    });
   }
 
   async update(req, res) {
