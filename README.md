@@ -1,5 +1,11 @@
 # Teste_87Labs
 
+Nesta aplicação foram utilizadas as seguintes tecnologias:
+ - Node.js e Express.js
+ - Banco de dados PostgreSQL
+ - ORM Sequelize
+
+
 Para executar a aplicação deve ser seguidos os seguintes passos:
 
  - Instalar [Node.js](https://nodejs.org/en/) e [Yarn](https://yarnpkg.com/lang/en/).
