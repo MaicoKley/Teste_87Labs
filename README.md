@@ -3,7 +3,7 @@
 Para executar a aplicação deve ser seguidos os seguintes passos:
 
  - Instalar [Node.js](https://nodejs.org/en/) e [Yarn](https://yarnpkg.com/lang/en/).
- - Realizar a configuração de conexão do banco em `Teste_87Labs/src/config/database.js`.
+ - Realizar a configuração de conexão do banco Postgre em `Teste_87Labs/src/config/database.js`.
  - Dever executado o comando `yarn` na raiz da aplicaço para serem baixadas as dependências.     
  - Executar o comando para serem geradas as tabelas no banco de dados `yarn sequelize db:migrate`.    
  - E por fim `yarn dev` para executar a aplicação.
