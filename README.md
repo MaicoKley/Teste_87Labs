@@ -1,4 +1,4 @@
-# Teste_87Labs
+# API Caixa Eletronico
 
 Nesta aplicação foram utilizadas as seguintes tecnologias:
  - Node.js e Express.js
